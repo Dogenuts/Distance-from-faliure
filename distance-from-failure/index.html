@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Monolith - Prologue</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Libre+Baskerville:italic&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <!-- Shared SVG Definitions -->
+        <svg style="position: absolute; width: 0; height: 0;">
+            <defs>
+                <!-- Volumetric Mist Filter -->
+                <filter id="mist-filter">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" seed="1" result="noise" />
+                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="50" />
+                </filter>
+                
+                <!-- Noise Texture -->
+                <filter id="grain">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch" />
+                    <feColorMatrix type="saturate" values="0" />
+                </filter>
+
+                <!-- Monolith Gradient -->
+                <linearGradient id="monolith-grad" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#0a0a0a" />
+                    <stop offset="100%" stop-color="#1a1a1a" />
+                </linearGradient>
+
+                <!-- Monolith Glow -->
+                <filter id="glow">
+                    <feGaussianBlur stdDeviation="6" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+            </defs>
+        </svg>
+
+        <!-- LAYER 1: BLURRED BASE -->
+        <div id="layer-blurred" class="scene-layer blurred">
+            <div class="sky"></div>
+            <div class="mountains">
+                <svg viewBox="0 0 1000 600" preserveAspectRatio="none">
+                    <path d="M0,600 L0,350 Q250,250 500,350 T1000,300 L1000,600 Z" fill="#3d2b4d" opacity="0.4" />
+                    <path d="M0,600 L0,400 Q300,300 600,420 T1000,380 L1000,600 Z" fill="#2a1a3a" />
+                </svg>
+            </div>
+            <div class="ground">
+                <svg viewBox="0 0 1000 600" preserveAspectRatio="none">
+                    <path d="M0,600 L1000,600 L1000,450 Q500,550 0,450 Z" fill="#1a0a1a" />
+                    <path d="M480,600 L520,600 L505,450 L495,450 Z" fill="#2a1a3a" opacity="0.3" /> <!-- Path -->
+                </svg>
+            </div>
+            <div class="monolith-placeholder"></div>
+            <div class="mist-wrap">
+                <div class="mist mist-1"></div>
+                <div class="mist mist-2"></div>
+            </div>
+            <div class="foreground">
+                <svg viewBox="0 0 1000 600" preserveAspectRatio="none">
+                    <path d="M-50,600 Q50,300 0,0 L-50,0 Z" fill="#050505" /> <!-- Left Vines -->
+                </svg>
+            </div>
+        </div>
+
+        <!-- LAYER 2: CLEAR OVERLAY (Masked) -->
+        <div id="layer-clear" class="scene-layer clear">
+            <div class="sky"></div>
+            <div class="mountains">
+                <svg viewBox="0 0 1000 600" preserveAspectRatio="none">
+                    <path d="M0,600 L0,350 Q250,250 500,350 T1000,300 L1000,600 Z" fill="#4d3b5d" opacity="0.5" />
+                    <path d="M0,600 L0,400 Q300,300 600,420 T1000,380 L1000,600 Z" fill="#3a2a4a" />
+                </svg>
+            </div>
+            <div class="ground">
+                <svg viewBox="0 0 1000 600" preserveAspectRatio="none">
+                    <path d="M0,600 L1000,600 L1000,450 Q500,550 0,450 Z" fill="#1f0f1f" />
+                    <path d="M480,600 L520,600 L505,450 L495,450 Z" fill="#3a2a4a" opacity="0.4" /> <!-- Path -->
+                    <!-- Grass clumps -->
+                    <circle cx="200" cy="550" r="20" fill="#152a15" opacity="0.3" />
+                    <circle cx="800" cy="520" r="15" fill="#152a15" opacity="0.3" />
+                </svg>
+            </div>
+            
+            <!-- Detailed Monolith -->
+            <div class="monolith">
+                <svg viewBox="0 0 200 500">
+                    <!-- Tapered Silhouette -->
+                    <path d="M55,500 L145,500 L125,0 L75,0 Z" fill="url(#monolith-grad)" />
+                    <!-- Segments -->
+                    <rect x="60" y="140" width="80" height="2" fill="#000" />
+                    <rect x="65" y="300" width="70" height="2" fill="#000" />
+                    <!-- Grooves -->
+                    <path d="M97,30 L103,30 L103,470 L97,470 Z" fill="#000" opacity="0.6" />
+                    <path d="M82,100 L84,100 L84,400 L82,400 Z" fill="#000" opacity="0.3" />
+                    <path d="M116,100 L118,100 L118,400 L116,400 Z" fill="#000" opacity="0.3" />
+                    <!-- Arch/Slit -->
+                    <path d="M92,490 L108,490 L108,450 Q100,440 92,450 Z" fill="#000" />
+                    <!-- Breathing Glow -->
+                    <path class="breathing-glow" d="M99,50 L101,50 L101,440 L99,440 Z" fill="#4fffcb" filter="url(#glow)" />
+                </svg>
+            </div>
+
+            <div class="mist-wrap">
+                <div class="mist mist-1 clear-mist"></div>
+            </div>
+
+            <div class="foreground">
+                <svg viewBox="0 0 1000 600" preserveAspectRatio="none">
+                    <path d="M-50,600 Q80,300 0,0 L-50,0 Z" fill="#0a0a0a" /> <!-- Left Vines -->
+                    <path d="M-20,600 Q30,500 10,400" stroke="#1a2a1a" stroke-width="2" fill="none" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- Debris (Shared) -->
+        <div id="debris-field"></div>
+
+        <!-- UI Overlay -->
+        <div class="ui-overlay">
+            <div id="prologue-text" class="text-content">
+                <p class="line meta">00. PROLOGUE</p>
+                <p class="line">The mistake I made was a pattern.</p>
+                <p class="line">I kept choosing distance from failure.</p>
+                <p class="line">I could see the tower.</p>
+                <p class="line">I just didn’t test the path.</p>
+            </div>
+            
+            <div id="hint" class="hint-text">Approach the monolith to clear the mist</div>
+            <button id="continue-btn" class="continue-btn">Continue</button>
+        </div>
+
+        <!-- Noise Overlay -->
+        <div class="grain-overlay"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
